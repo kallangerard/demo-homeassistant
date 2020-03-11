@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+config/home-assistant_v2.db
+config/.HA_VERSION
+config/known_devices.yaml
+config/.storage/

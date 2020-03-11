@@ -1,0 +1,13 @@
+---
+version: "3"
+
+services:
+  homeassistant:
+    image: homeassistant/home-assistant:stable
+    container_name: homeassistant
+    environment:
+      - TZ=Australia/Perth
+    ports:
+      - 8123:8123
+    volumes:
+      - ./config:/config
