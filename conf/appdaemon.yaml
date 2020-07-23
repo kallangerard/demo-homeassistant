@@ -1,0 +1,15 @@
+appdaemon:
+  time_zone: Australia/Perth
+  latitude: -31.9505
+  longitude: 115.8605
+  elevation: 0
+  plugins:
+    HASS:
+      type: hass
+      ha_url: http://homeassistant:8123
+      token: !env_var APPDAEMON_HA_TOKEN
+http:
+  url: http://appdaemon:5050
+admin:
+api:
+hadashboard:

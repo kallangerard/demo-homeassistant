@@ -5,9 +5,66 @@ services:
   homeassistant:
     image: homeassistant/home-assistant:stable
     container_name: homeassistant
+    depends_on:
+      - postgres
+      - influxdb
     environment:
       - TZ=Australia/Perth
+      - /etc/localtime:/etc/localtime:ro
     ports:
       - 8123:8123
     volumes:
       - ./config:/config
+      - /etc/localtime:/etc/localtime:ro
+
+  appdaemon:
+    image: acockburn/appdaemon:4.0.4
+    container_name: appdaemon
+    depends_on:
+      - homeassistant
+    environment:
+      - APPDAEMON_HA_TOKEN
+      - "DASH_URL=http://appdaemon:5050"
+      - "HA_URL=http://homeassistant:8123"
+      - "TOKEN=!env_var APPDAEMON_HA_TOKEN"
+    volumes:
+      - ./conf:/conf
+      - /etc/localtime:/etc/localtime:ro
+
+  postgres:
+    container_name: postgres
+    image: postgres:12.2
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - POSTGRES_USER=homeassistant
+      - POSTGRES_PASSWORD=homeassistant
+      - POSTGRES_DB=home
+      - "PGDATA=/var/lib/postgresql/data/pgdata"
+
+  influxdb:
+    container_name: influxdb
+    image: influxdb:1.7.10
+    ports:
+      - 8086:8086
+    volumes:
+      - ./influxdb:/var/lib/influxdb
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - INFLUXDB_DB=homeassistant
+      - INFLUXDB_USER=homeassistant
+      - INFLUXDB_PASSWORD=homeassistant
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana
+    ports:
+      - 3000:3000
+    volumes:
+      - grafana:/var/lib/grafana
+      - /etc/localtime:/etc/localtime:ro
+    environment:
+      - "GF_INSTALL_PLUGINS="
+
+volumes:
+  grafana:
