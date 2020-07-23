@@ -1,0 +1,24 @@
+input_boolean.dryer:
+  power: 1000
+input_boolean.washing_machine:
+  power: 750
+input_boolean.heater_living_room:
+  power: 500
+  priority: 30
+  loss: 0.5
+  gain: 2
+input_boolean.heater_bedroom:
+  power: 500
+  priority: 20
+  loss: 0.5
+  gain: 2
+input_boolean.heater_kitchen:
+  power: 750
+  priority: 10
+  loss: 0.5
+  gain: 2
+input_boolean.heater_water:
+  power: 1000
+  priority: 50
+  loss: 0.5
+  gain: 1

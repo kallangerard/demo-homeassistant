@@ -1,0 +1,36 @@
+heater_living_room_ideal:
+  min: 16
+  max: 30
+  initial: 22
+  step: 0.5
+  mode: slider
+  unit_of_measurement: "°C"
+heater_bedroom_ideal:
+  min: 16
+  max: 30
+  initial: 22
+  step: 0.5
+  mode: slider
+  unit_of_measurement: "°C"
+heater_kitchen_ideal:
+  min: 16
+  max: 30
+  initial: 22
+  step: 0.5
+  mode: slider
+  unit_of_measurement: "°C"
+heater_water_heater_ideal:
+  min: 60
+  max: 65
+  initial: 60
+  step: 0.5
+  mode: slider
+  unit_of_measurement: "°C"
+
+# Solar
+solar_generation:
+  min: 0
+  max: 5000
+  initial: 0
+  mode: slider
+  unit_of_measurement: "W"

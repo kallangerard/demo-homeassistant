@@ -1,0 +1,26 @@
+  - platform: template
+    sensors:
+      power_demand:
+        unit_of_measurement: "W"
+        entity_id: # Required entities to monitor for state change, as well as group
+          - input_boolean.dryer
+          - input_boolean.washing_machine
+          - input_boolean.heater_living_room
+          - input_boolean.heater_bedroom
+          - input_boolean.heater_kitchen
+          - input_boolean.heater_water
+        value_template: >-
+          {{ expand("group.power_loads") 
+            | selectattr("state", "eq", "on")
+            | map(attribute="attributes.power")
+            | sum }}
+      
+      power_import:
+        unit_of_measurement: "W"
+        entity_id:
+          - sensor.power_demand
+          - input_number.solar_generation
+        value_template: >-
+          {% set demand = states("sensor.power_demand") | float %} 
+          {% set generation = states("input_number.solar_generation") | float %}
+          {{ demand - generation }}

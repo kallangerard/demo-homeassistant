@@ -1,0 +1,8 @@
+hello_world:
+  module: hello
+  class: HelloWorld
+
+solar_diverter:
+  module: solar_diverter
+  class: SolarDiverter
+  # constrain_input_boolean: input_boolean.enable_motion_detection

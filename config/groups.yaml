@@ -1,0 +1,8 @@
+power_loads:
+  entities: # Change template sensor entity ids as well
+    - input_boolean.dryer
+    - input_boolean.washing_machine
+    - input_boolean.heater_living_room
+    - input_boolean.heater_bedroom
+    - input_boolean.heater_kitchen
+    - input_boolean.heater_water

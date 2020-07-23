@@ -1,8 +1,14 @@
-
 # Configure a default setup of Home Assistant (frontend, api, etc)
+homeassistant:
+  customize: !include customize.yaml
+  
 default_config:
+frontend:
+  themes:
+    demo:
+      primary-color: green
 
-demo: 
+demo:
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
 # http:
@@ -16,3 +22,24 @@ group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
 scene: !include scenes.yaml
+
+# Demo Additions
+
+recorder:
+  db_url: postgresql://homeassistant:homeassistant@postgres:5432/home
+
+sensor: !include sensors.yaml
+
+influxdb:
+  host: influxdb
+  port: 8086
+  database: homeassistant
+  username: homeassistant
+  password: homeassistant
+  max_retries: 3
+  tags:
+    instance: demo
+    source: hass
+
+input_boolean: !include input_booleans.yaml
+input_number: !include input_numbers.yaml
