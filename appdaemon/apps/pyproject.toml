@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "solar-diverter"
+version = "0.1.0"
+description = ""
+authors = ["kallangerard <36556982+kallangerard@users.noreply.github.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+appdaemon = "^4.0.4"
+
+[tool.poetry.dev-dependencies]
+pytest = "^4.6"
+black = "^19.10b0"
+pylint = "^2.5.3"
+appdaemontestframework = "^3.0.5"
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

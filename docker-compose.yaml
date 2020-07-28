@@ -28,7 +28,7 @@ services:
       - "HA_URL=http://homeassistant:8123"
       - "TOKEN=!env_var APPDAEMON_HA_TOKEN"
     volumes:
-      - ./conf:/conf
+      - ./appdaemon:/conf
       - /etc/localtime:/etc/localtime:ro
 
   postgres:

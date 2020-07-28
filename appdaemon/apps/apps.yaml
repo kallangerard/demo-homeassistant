@@ -1,0 +1,15 @@
+solar_diverter:
+  module: solar_diverter
+  class: App
+  heaters:
+    - input_boolean.heater_living_room
+    - input_boolean.heater_bedroom
+    - input_boolean.heater_kitchen
+    - input_boolean.heater_water
+  power_demand: sensor.power_demand
+  power_import: sensor.power_import
+  # constrain_input_boolean: input_boolean.enable_motion_detection
+
+# 5000W Generation
+# 8000W Demand
+# -3000W
