@@ -19,7 +19,7 @@ heater_kitchen_ideal:
   step: 0.5
   mode: slider
   unit_of_measurement: "°C"
-heater_water_heater_ideal:
+heater_water_ideal:
   min: 60
   max: 65
   initial: 60
@@ -34,3 +34,28 @@ solar_generation:
   initial: 0
   mode: slider
   unit_of_measurement: "W"
+
+# Simulation
+
+living_room_temperature:
+  min: 0
+  max: 40
+  unit_of_measurement: "°C"
+bedroom_temperature:
+  min: 0
+  max: 40
+  unit_of_measurement: "°C"
+kitchen_temperature:
+  min: 0
+  max: 40
+  unit_of_measurement: "°C"
+heater_water_temperature:
+  min: 0
+  max: 40
+  unit_of_measurement: "°C"
+
+tick:
+  initial: 0
+  min: 0
+  max: 72
+  unit_of_measurement: "Hours"

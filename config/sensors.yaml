@@ -14,6 +14,8 @@
             | selectattr("state", "eq", "on")
             | map(attribute="attributes.power")
             | sum }}
+        attribute_templates: 
+          tick: "{{ states('input_number.tick') }}"
       
       power_import:
         unit_of_measurement: "W"
@@ -24,3 +26,5 @@
           {% set demand = states("sensor.power_demand") | float %} 
           {% set generation = states("input_number.solar_generation") | float %}
           {{ demand - generation }}
+        attribute_templates: 
+          tick: "{{ states('input_number.tick') }}"          

@@ -1,7 +1,7 @@
 # Configure a default setup of Home Assistant (frontend, api, etc)
 homeassistant:
   customize: !include customize.yaml
-  
+
 default_config:
 frontend:
   themes:
@@ -40,6 +40,9 @@ influxdb:
   tags:
     instance: demo
     source: hass
+  tags_attributes:
+    - tick
 
 input_boolean: !include input_booleans.yaml
 input_number: !include input_numbers.yaml
+climate: !include climates.yaml

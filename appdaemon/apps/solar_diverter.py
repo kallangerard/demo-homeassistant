@@ -1,18 +1,16 @@
 import appdaemon.plugins.hass.hassapi as hass
 
-
 class App(hass.Hass):
     def initialize(self):
         self.log("Initialising Solar Diverter")
         app = self
         self.loads = Loads(app, self.args["heaters"])
-        self.run_every(self.loads.control_loads, "now", 2)
-
+        self.run_every(self.loads.control_loads, "now", 1)
 
 class Loads:
     def __init__(self, app, entities):
-        self.entities = entities
         self.app = app
+        self.entities = entities
 
     def control_loads(self, *args):
         imported_power = self._get_imported_power()

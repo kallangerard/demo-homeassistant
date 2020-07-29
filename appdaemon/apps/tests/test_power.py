@@ -12,5 +12,11 @@ from solar_diverter import Loads
 
 
 class TestLoads:
-    def test_loads(self):
-        assert 0 == 0
+    def test_loads_app(self):
+        loads = Loads("app", "entities")
+        assert loads.app == "app"
+
+    def test_loads_entities(self):
+        loads = Loads("app", "entities")
+        assert loads.entities == "entities"
+

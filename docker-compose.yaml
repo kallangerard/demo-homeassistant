@@ -10,7 +10,6 @@ services:
       - influxdb
     environment:
       - TZ=Australia/Perth
-      - /etc/localtime:/etc/localtime:ro
     ports:
       - 8123:8123
     volumes:
