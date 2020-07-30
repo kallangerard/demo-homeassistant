@@ -49,9 +49,9 @@ kitchen_temperature:
   min: 0
   max: 40
   unit_of_measurement: "°C"
-heater_water_temperature:
+water_temperature:
   min: 0
-  max: 40
+  max: 100
   unit_of_measurement: "°C"
 
 tick:

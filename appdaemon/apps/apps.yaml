@@ -12,30 +12,32 @@
 simulation:
   module: simulation
   class: Simulation
-  heaters:
-    - input_boolean.heater_living_room
-    - input_boolean.heater_bedroom
-    - input_boolean.heater_kitchen
-    - input_boolean.heater_water
-# thermostat:
-#   module: thermostat
-#   class: App
-#   thermostats:
-#     living_room:
-#       heat_gain: 1
-#       heat_loss: 0.5
-#       heater: input_boolean.heater_living_room
-#     bedroom:
-#       heat_gain: 1
-#       heat_loss: 0.5
-#       heater: input_boolean.heater_bedroom
-#     kitchen:
-#       heat_gain: 1
-#       heat_loss: 0.5
-#       heater: input_boolean.heater_kitchen
-#     heater_water:
-#       heat_gain: 1
-#       heat_loss: 0.5
-#       heater: input_boolean.heater_water
-#   power_demand: sensor.power_demand
-#   power_import: sensor.power_import
+  loads:
+    living_room:
+      thermostat: climate.living_room
+      temperature: input_number.living_room_temperature
+      heater: input_boolean.heater_living_room
+      thermal_mass: 1
+      heat_gain: 1
+      heat_loss: 0.5
+    bedroom:
+      thermostat: climate.bedroom
+      temperature: input_number.bedroom_temperature
+      heater: input_boolean.heater_bedroom
+      thermal_mass: 1
+      heat_gain: 1
+      heat_loss: 0.5
+    kitchen:
+      thermostat: climate.kitchen
+      temperature: input_number.kitchen_temperature
+      heater: input_boolean.heater_kitchen
+      thermal_mass: 1
+      heat_gain: 1
+      heat_loss: 0.5
+    water:
+      thermostat: climate.water
+      temperature: input_number.water_temperature
+      heater: input_boolean.heater_water
+      thermal_mass: 1
+      heat_gain: 1
+      heat_loss: 0.5
