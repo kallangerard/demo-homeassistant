@@ -1,7 +1,5 @@
 import time
-
 import appdaemon.plugins.hass.hassapi as hass
-from solar_diverter import Loads
 from mock import dryer
 from mock import pv
 from mock import washing_machine
@@ -15,17 +13,15 @@ class Simulation(hass.Hass):
     def initialize(self):
 
         self.thermostats = self._get_loads(self.args["loads"].items())
-        self.loads = Loads(self, self.thermostats)
         self.set_state("input_number.tick", state=0)
-        # self._run_thermostat()
-        # self.run_every(self._run_thermostat, "now", 5)
-        self.run_every(self._run_thermostat, "now", 2)
+        # self.run_every(self.hourly, "now", 2)
 
     def _get_loads(self, loads: dict):
         thermostats = list(map(lambda x: x[1].get("thermostat"), loads))
         return thermostats
 
     def hourly(self, *args):
+        solar_diverter = self.get_app("solar_diverter")
         tick = int(float(self.get_state("input_number.tick")))
         tick = tick + 1
         if tick > 72:
@@ -41,10 +37,9 @@ class Simulation(hass.Hass):
             tick=tick,
         )
         self._run_thermostat()
-        self.loads.control_loads()
+        solar_diverter.control_loads()
 
     def _switch_load(self, entity_id: str, state_string: str, tick: int):
-        self.log(state_string)
         if state_string == "on":
             self.turn_on(entity_id)
         elif state_string == "off":

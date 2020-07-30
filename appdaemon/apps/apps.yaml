@@ -1,43 +1,49 @@
-# solar_diverter:
-#   module: solar_diverter
-#   class: App
+solar_diverter:
+  module: solar_diverter
+  class: App
+  loads:
+    - climate.living_room
+    - climate.bedroom
+    - climate.kitchen
+    - climate.water
 # heaters:
 #   - input_boolean.heater_living_room
 #   - input_boolean.heater_bedroom
 #   - input_boolean.heater_kitchen
 #   - input_boolean.heater_water
-#   power_demand: sensor.power_demand
-#   power_import: sensor.power_import
+  # power_demand: sensor.power_demand
+  # power_import: sensor.power_import
 
 simulation:
   module: simulation
   class: Simulation
+  dependencies: solar_diverter
   loads:
     living_room:
       thermostat: climate.living_room
       temperature: input_number.living_room_temperature
       heater: input_boolean.heater_living_room
       thermal_mass: 1
-      heat_gain: 1
-      heat_loss: 0.5
+      heat_gain: 2
+      heat_loss: 1
     bedroom:
       thermostat: climate.bedroom
       temperature: input_number.bedroom_temperature
       heater: input_boolean.heater_bedroom
       thermal_mass: 1
-      heat_gain: 1
-      heat_loss: 0.5
+      heat_gain: 2
+      heat_loss: 1
     kitchen:
       thermostat: climate.kitchen
       temperature: input_number.kitchen_temperature
       heater: input_boolean.heater_kitchen
       thermal_mass: 1
-      heat_gain: 1
-      heat_loss: 0.5
+      heat_gain: 2
+      heat_loss: 1
     water:
       thermostat: climate.water
       temperature: input_number.water_temperature
       heater: input_boolean.heater_water
       thermal_mass: 1
-      heat_gain: 1
-      heat_loss: 0.5
+      heat_gain: 3
+      heat_loss: 1

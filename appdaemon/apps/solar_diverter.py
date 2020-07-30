@@ -1,55 +1,50 @@
 import appdaemon.plugins.hass.hassapi as hass
 
+
 class App(hass.Hass):
     def initialize(self):
         self.log("Initialising Solar Diverter")
-        app = self
-        self.loads = Loads(app, self.args["heaters"])
-        self.run_every(self.loads.control_loads, "now", 1)
+        self.entities = self.args["loads"]
+        self.log("initialized Loads")
 
-class Loads:
-    def __init__(self, app, entities):
-        self.app = app
-        self.entities = entities
-
-    def control_loads(self, *args):
+    def control_loads(self):
         imported_power = self._get_imported_power()
-        self.app.log(f"Imported Power: {imported_power}")
+        self.log(f"Imported Power: {imported_power}")
+        self.log(self.entities)
 
+        # def blah(self):
         if imported_power >= 0.0:
             loads = self._get_filtered_loads(
-                filter_state=self._get_on_state, reverse=False
+                filter_state=self._get_on_state, reverse=False, entities=self.entities
             )
             if len(loads) > 0:
                 first_entity = loads[0]["entity_id"]
-                self.app.log(f"Turning off {first_entity}")
-                self.app.call_service(
-                    "input_boolean/turn_off", entity_id=first_entity,
-                )
+                self.log(f"Turning off {first_entity}")
+                self.call_service(**loads[0]["turn_off_action"])
 
         elif imported_power < 0.0:
             loads = self._get_filtered_loads(
-                filter_state=self._get_off_state, reverse=True
+                filter_state=self._get_off_state, reverse=True, entities=self.entities
             )
             if len(loads) > 0:
                 first_entity = loads[0]["entity_id"]
                 entity_power = loads[0]["power"]
                 if abs(imported_power) > entity_power:
-                    self.app.log(f"Turning on {first_entity}")
-                    self.app.call_service(
-                        "input_boolean/turn_on", entity_id=first_entity,
-                    )
+                    self.log(f"Turning on {first_entity}")
+                    self.call_service(**loads[0]["turn_on_action"])
 
     def _get_load_priority(self, state):
         return state.get("priority")
 
     def _get_entity_state(self, entity: str) -> dict:
-        state = self.app.get_state(entity, attribute="all")
+        state = self.get_state(entity, attribute="all")
         return {
             "entity_id": state["entity_id"],
             "state": state["state"],
             "power": float(state["attributes"]["power"]),
             "priority": int(state["attributes"]["priority"]),
+            "turn_on_action": state["attributes"]["turn_on_action"],
+            "turn_off_action": state["attributes"]["turn_off_action"],
         }
 
     def _get_off_state(self, state: dict) -> str:
@@ -59,16 +54,16 @@ class Loads:
             return False
 
     def _get_on_state(self, state: dict) -> str:
-        if state.get("state") == "on":
+        if state.get("state") == "heat":
             return True
         else:
             return False
 
-    def _get_filtered_loads(self, filter_state, reverse: str) -> list:
-        states = list(map(self._get_entity_state, self.entities))
-        filtered = list(filter(filter_state, states))
+    def _get_filtered_loads(self, filter_state, reverse: str, entities: list) -> list:
+        load_states = list(map(self._get_entity_state, self.entities))
+        filtered = list(filter(filter_state, load_states))
         ordered = sorted(filtered, key=self._get_load_priority, reverse=reverse,)
         return list(ordered)
 
     def _get_imported_power(self) -> float:
-        return float(self.app.get_state("sensor.power_import"))
+        return float(self.get_state("sensor.power_import"))
