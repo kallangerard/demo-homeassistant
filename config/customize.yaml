@@ -1,46 +1,62 @@
 # Climate
 climate.living_room:
-  turn_on_action:
-    service: climate/set_temperature
-    temperature: 25
-    entity_id: climate.living_room
-  turn_off_action:
-    service: climate/set_temperature
-    temperature: 20
-    entity_id: climate.living_room
+  turn_on_action: >-
+    [{
+      "service": "climate/set_temperature",
+      "temperature": 25,
+      "entity_id": "climate.living_room"
+    }]
+  turn_off_action: >-
+    [{
+      "service": "climate/set_temperature",
+      "temperature": 20,
+      "entity_id": "climate.living_room"
+    }]
   power: 500
   priority: 30
 climate.bedroom:
-  turn_on_action:
-    service: climate/set_temperature
-    temperature: 25
-    entity_id: climate.bedroom
-  turn_off_action:
-    service: climate/set_temperature
-    temperature: 20
-    entity_id: climate.bedroom
+  turn_on_action: >-
+    [{
+      "service": "climate/set_temperature",
+      "temperature": 25,
+      "entity_id": "climate.bedroom"
+    }]
+  turn_off_action: >-
+    [{
+      "service": "climate/set_temperature",
+      "temperature": 20,
+      "entity_id": "climate.bedroom"
+    }]
   power: 500
   priority: 20
 climate.kitchen:
-  turn_on_action:
-    service: climate/set_temperature
-    temperature: 25
-    entity_id: climate.kitchen
-  turn_off_action:
-    service: climate/set_temperature
-    temperature: 20
-    entity_id: climate.kitchen
+  turn_on_action: >-
+    [{
+      "service": "climate/set_temperature",
+      "temperature": 25,
+      "entity_id": "climate.kitchen"
+    }]
+  turn_off_action: >-
+    [{
+      "service": "climate/set_temperature",
+      "temperature": 20,
+      "entity_id": "climate.kitchen"
+    }]
   power: 750
   priority: 10
 climate.water:
-  turn_on_action:
-    service: climate/set_temperature
-    temperature: 70
-    entity_id: climate.water
-  turn_off_action:
-    service: climate/set_temperature
-    temperature: 60
-    entity_id: climate.water
+  turn_on_action: >-
+    [{
+      "service": "climate/set_temperature",
+      "temperature": 70,
+      "entity_id": "climate.water"
+    }]
+  turn_off_action: >-
+    [{
+      "service": "climate/set_temperature",
+      "temperature": 60,
+      "entity_id": "climate.water"
+    }]
   power: 1000
   priority: 50
 

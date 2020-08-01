@@ -6,7 +6,7 @@
   max_temp: 30
   ac_mode: false
   target_temp: 20
-  cold_tolerance: 2
+  cold_tolerance: 1
   hot_tolerance: 1
   initial_hvac_mode: "heat"
 - platform: generic_thermostat
@@ -17,7 +17,7 @@
   max_temp: 30
   ac_mode: false
   target_temp: 20
-  cold_tolerance: 2
+  cold_tolerance: 1
   hot_tolerance: 1
   initial_hvac_mode: "heat"
 - platform: generic_thermostat
@@ -28,7 +28,7 @@
   max_temp: 30
   ac_mode: false
   target_temp: 20
-  cold_tolerance: 2
+  cold_tolerance: 1
   hot_tolerance: 1
   initial_hvac_mode: "heat"
 - platform: generic_thermostat

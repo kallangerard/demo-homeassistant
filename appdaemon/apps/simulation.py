@@ -1,3 +1,4 @@
+import json
 import time
 import appdaemon.plugins.hass.hassapi as hass
 from mock import dryer
@@ -14,7 +15,21 @@ class Simulation(hass.Hass):
 
         self.thermostats = self._get_loads(self.args["loads"].items())
         self.set_state("input_number.tick", state=0)
-        # self.run_every(self.hourly, "now", 2)
+        # self.log(test_state)
+        setup_loads = self.args["loads"].items()
+        for load in setup_loads:
+            start_temperature = float(load[1]["start_temperature"])
+            temperature = load[1]["temperature"]
+            thermostat = load[1]["thermostat"]
+            self.log(f"Setting {temperature} to {start_temperature}")
+            self.set_value(temperature, start_temperature)
+            self.log(f"Setting {thermostat} to {start_temperature}")
+            self.call_service(
+                "climate/set_temperature",
+                entity_id=thermostat,
+                temperature=start_temperature,
+            )
+        self.run_every(self.hourly, "now", 1)
 
     def _get_loads(self, loads: dict):
         thermostats = list(map(lambda x: x[1].get("thermostat"), loads))
@@ -23,21 +38,23 @@ class Simulation(hass.Hass):
     def hourly(self, *args):
         solar_diverter = self.get_app("solar_diverter")
         tick = int(float(self.get_state("input_number.tick")))
-        tick = tick + 1
-        if tick > 72:
+        if tick == 72:
             self.log("Finished Simulation")
             self.stop_app("simulation")
         # self.log(f"Setting Tick to {type(tick)}")
-        self.set_value("input_number.tick", tick)
-        self.set_value("input_number.solar_generation", PV[tick])
-        self._switch_load("input_boolean.dryer", state_string=DRYER[tick], tick=tick)
+        self.set_value("input_number.tick", tick + 1)
+        self.set_value("input_number.solar_generation", PV[tick - 1])
+        self._switch_load(
+            "input_boolean.dryer", state_string=DRYER[tick - 1], tick=tick
+        )
         self._switch_load(
             "input_boolean.washing_machine",
-            state_string=WASHING_MACHINE[tick],
+            state_string=WASHING_MACHINE[tick - 1],
             tick=tick,
         )
         self._run_thermostat()
-        solar_diverter.control_loads()
+        for _ in range(4):
+            solar_diverter.control_loads()
 
     def _switch_load(self, entity_id: str, state_string: str, tick: int):
         if state_string == "on":
@@ -62,9 +79,8 @@ class Simulation(hass.Hass):
             target_temperature = load[1]["temperature"]
             current_temp = float(current_temperatures[target_temperature]["state"])
             new_temp = (
-                current_temp + (heat_gain * thermal_mass) - (heat_loss * thermal_mass)
+                current_temp + (heat_gain / thermal_mass) - (heat_loss / thermal_mass)
             )
-            self.log(f"Setting {target_temperature} to {new_temp}")
             self.set_value(target_temperature, new_temp)
 
 
