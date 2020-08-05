@@ -40,8 +40,8 @@ class Simulation(hass.Hass):
         tick = int(float(self.get_state("input_number.tick")))
         if tick == 72:
             self.log("Finished Simulation")
-            self.stop_app("simulation")
-        # self.log(f"Setting Tick to {type(tick)}")
+            self.turn_off("input_boolean.run_simulation")
+            return
         self.set_value("input_number.tick", tick + 1)
         self.set_value("input_number.solar_generation", PV[tick - 1])
         self._switch_load(
@@ -53,8 +53,9 @@ class Simulation(hass.Hass):
             tick=tick,
         )
         self._run_thermostat()
-        for _ in range(4):
-            solar_diverter.control_loads()
+        if self.args["control_loads"] == True:
+            for _ in range(4):
+                solar_diverter.control_loads()
 
     def _switch_load(self, entity_id: str, state_string: str, tick: int):
         if state_string == "on":
@@ -82,17 +83,3 @@ class Simulation(hass.Hass):
                 current_temp + (heat_gain / thermal_mass) - (heat_loss / thermal_mass)
             )
             self.set_value(target_temperature, new_temp)
-
-
-class Thermostat:
-    def __init__(self, app, thermostat):
-        self.app = app
-        self._heat_gain = thermostat.get("heat_gain")
-        self._heat_loss = thermostat.get("heat_loss")
-        self._heater = thermostat.get("heater")
-
-    def set_target_temperature(self, target_temperature: float):
-        pass
-
-    def get_target_temperature(self) -> float:
-        return self.app.get_state(self._heater, attribute="target_temperature")

@@ -1,0 +1,28 @@
+@startuml Architecture Overview
+!define DARKBLUE
+!includeurl https://raw.githubusercontent.com/Drakemor/RedDress-PlantUML/master/style.puml
+' skinparam nodesep 10
+' skinparam ranksep 10
+skinparam card {
+  basic_style()
+  font_style()
+}
+
+(*) --> "initialize()"
+"initialize()" --> "get_imported_power()"
+if "imported_power" then
+  -->[>= 0] "get_filtered_loads(on_state)"
+else
+  -->[<0] "get_filtered_loads(off_state)"
+endif
+
+"get_filtered_loads(off_state)" --> "Get Entity States"
+"get_filtered_loads(on_state)" --> "Get Entity States"
+"Get Entity States" --> "Sort by Priority"
+"Sort by Priority" --> "Apply Load Action"
+
+
+
+
+
+@enduml
