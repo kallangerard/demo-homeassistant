@@ -6,20 +6,13 @@ solar_diverter:
     - climate.bedroom
     - climate.kitchen
     - climate.water
-# heaters:
-#   - input_boolean.heater_living_room
-#   - input_boolean.heater_bedroom
-#   - input_boolean.heater_kitchen
-#   - input_boolean.heater_water
-# power_demand: sensor.power_demand
-# power_import: sensor.power_import
 
 simulation:
   module: simulation
   class: Simulation
   dependencies: solar_diverter
   constrain_input_boolean: input_boolean.run_simulation
-  control_loads: True
+  control_loads: False
   ## Bad House
   loads:
     living_room:
@@ -54,7 +47,7 @@ simulation:
       thermal_mass: 1
       heat_gain: 3
       heat_loss: 1
-  ## Good House
+  # Good House
   # loads:
   #   living_room:
   #     start_temperature: 20
@@ -63,7 +56,7 @@ simulation:
   #     heater: input_boolean.heater_living_room
   #     thermal_mass: 1
   #     heat_gain: 2
-  #     heat_loss: 1
+  #     heat_loss: 0.5
   #   bedroom:
   #     start_temperature: 20
   #     thermostat: climate.bedroom
@@ -71,7 +64,7 @@ simulation:
   #     heater: input_boolean.heater_bedroom
   #     thermal_mass: 1
   #     heat_gain: 2
-  #     heat_loss: 1
+  #     heat_loss: 0.5
   #   kitchen:
   #     start_temperature: 20
   #     thermostat: climate.kitchen
@@ -79,7 +72,7 @@ simulation:
   #     heater: input_boolean.heater_kitchen
   #     thermal_mass: 1
   #     heat_gain: 2
-  #     heat_loss: 1
+  #     heat_loss: 0.5
   #   water:
   #     start_temperature: 60
   #     thermostat: climate.water
@@ -87,4 +80,4 @@ simulation:
   #     heater: input_boolean.heater_water
   #     thermal_mass: 1
   #     heat_gain: 3
-  #     heat_loss: 1
+  #     heat_loss: 0.5
